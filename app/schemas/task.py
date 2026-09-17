@@ -8,6 +8,7 @@ class TaskBase(BaseModel):
     status: str = "todo"
     priority: str = "medium"
     due_date: date | None = None
+    attachment_url: str | None = None
 
 class TaskCreate(TaskBase):
     project_id: int

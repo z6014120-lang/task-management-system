@@ -1,21 +1,7 @@
-# Byte-compiled / optimized / DLL files
+ÿþvenv/
 __pycache__/
-*.py[cod]
-*$py.class
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# SQLite Databases
 *.db
 *.sqlite3
-
-# Test coverage
-.coverage
-htmlcov/
+frontend/node_modules/
+frontend/dist/
+.env

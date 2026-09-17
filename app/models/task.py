@@ -13,6 +13,7 @@ class Task(Base):
     priority = Column(String, default="medium")  # low, medium, high
     due_date = Column(Date, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    attachment_url = Column(String, nullable=True)
     
     project_id = Column(Integer, ForeignKey("projects.id"))
     assignee_id = Column(Integer, ForeignKey("users.id"), nullable=True)

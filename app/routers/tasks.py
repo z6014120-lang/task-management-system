@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from .. import models, schemas, dependencies, database
@@ -24,10 +24,17 @@ def create_task(task: schemas.TaskCreate, db: Session = Depends(database.get_db)
 def read_tasks(skip: int = 0, limit: int = 100, project_id: Optional[int] = None, assignee_id: Optional[int] = None, status: Optional[str] = None, priority: Optional[str] = None, db: Session = Depends(database.get_db), current_user: models.User = Depends(dependencies.get_current_active_user)):
     query = db.query(models.Task)
     
+    # ROLE-BASED ACCESS CONTROL
+    if current_user.role != 'admin':
+        # Employees can only see tasks assigned to them
+        query = query.filter(models.Task.assignee_id == current_user.id)
+    else:
+        # Admin can filter by assignee_id if provided
+        if assignee_id:
+            query = query.filter(models.Task.assignee_id == assignee_id)
+
     if project_id:
         query = query.filter(models.Task.project_id == project_id)
-    if assignee_id:
-        query = query.filter(models.Task.assignee_id == assignee_id)
     if status:
         query = query.filter(models.Task.status == status)
     if priority:
@@ -53,6 +60,24 @@ def update_task(task_id: int, task: schemas.TaskUpdate, db: Session = Depends(da
     for key, value in update_data.items():
         setattr(db_task, key, value)
 
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+import os
+import shutil
+
+@router.post("/{task_id}/upload", response_model=schemas.Task)
+def upload_task_attachment(task_id: int, file: UploadFile = File(...), db: Session = Depends(database.get_db), current_user: models.User = Depends(dependencies.get_current_active_user)):
+    db_task = db.query(models.Task).filter(models.Task.id == task_id).first()
+    if db_task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    file_location = f"uploads/{task_id}_{file.filename}"
+    with open(file_location, "wb+") as file_object:
+        shutil.copyfileobj(file.file, file_object)
+        
+    db_task.attachment_url = f"/uploads/{task_id}_{file.filename}"
     db.commit()
     db.refresh(db_task)
     return db_task

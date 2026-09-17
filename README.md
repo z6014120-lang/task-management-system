@@ -1,54 +1,49 @@
-# Business Management & Task Tracking System
+яю# =ШЂЮ Task Management System
 
-This is a professional Python-based application developed using FastAPI to manage projects, tasks, team members, and basic activity reporting information. It also includes a fully functional **React (Vite)** frontend!
+A full-stack, enterprise-grade Task Management System built to efficiently track projects, assign tasks to employees, and monitor progress through interactive analytics. 
 
-## Architecture
+## (' Key Features
+- **Role-Based Access Control (RBAC):** Distinct dashboards and permissions for Admins and Employees.
+- **Interactive Analytics:** Real-time Pie and Bar charts (powered by Recharts) to track task statuses and employee performance.
+- **Task Discussions:** Dedicated comment sections on each task for seamless communication between admin and employees.
+- **Live Notification System:** Bell icon alerts with real-time badges notifying users of new comments.
+- **Modern Minimalist UI:** Accordion-style task lists, dynamic status colors, and a clean interface.
 
-The project is built using:
-- **FastAPI**: Backend REST API.
-- **SQLAlchemy & SQLite**: Relational database storage.
-- **React.js & Vite**: Fast, modern frontend framework.
-- **Axios**: Handling API requests from frontend to backend.
+## =ШаЮю Tech Stack
+- **Frontend:** React.js, Vite, Axios, Recharts
+- **Backend:** Python, FastAPI, SQLAlchemy, SQLite
+- **Authentication:** JWT (JSON Web Tokens)
 
-## 1. Backend Setup (FastAPI)
+## ™&ю How to Run Locally
 
-To run the backend API server:
+### 1. Backend Setup
+1. Open a terminal in the root directory.
+2. Activate the virtual environment:
+   \\\ash
+   .\venv\Scripts\activate
+   \\\
+3. Run the backend server:
+   \\\ash
+   .\run.bat
+   \\\
+   *(Server will start on http://127.0.0.1:8000)*
 
-### Option A: Using the provided scripts (Windows)
-1. Run `./setup.sh` (in Git Bash) or `setup.bat` (in Command Prompt) to install dependencies.
-2. Run `./run.sh` or `run.bat` to start the server.
-
-### Option B: Manual Setup
-1. Create a virtual environment:
-```bash
-python -m venv venv
-source venv/Scripts/activate
-```
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-3. Run the backend application:
-```bash
-uvicorn app.main:app --reload
-```
-The API documentation is available at `http://127.0.0.1:8000/docs`.
-
-## 2. Frontend Setup (React & Vite)
-
-To run the frontend website:
-
-1. Open a new terminal (like Git Bash) and navigate to the `frontend` folder:
-```bash
-cd frontend
-```
-2. Install the Node modules:
-```bash
-npm install
-```
+### 2. Frontend Setup
+1. Open a new terminal and navigate to the frontend folder:
+   \\\ash
+   cd frontend
+   \\\
+2. Install the required packages:
+   \\\ash
+   npm install
+   \\\
 3. Start the development server:
-```bash
-npm run dev
-```
-4. Open the displayed local URL (usually `http://localhost:5173`) in your browser. 
-The React app has a proxy configured so that any calls to `/api` are automatically forwarded to your FastAPI backend at `http://127.0.0.1:8000`.
+   \\\ash
+   npm run dev
+   \\\
+4. Open the link provided in the terminal (usually http://localhost:5173) in your browser.
+
+## =ШЭ Demo Credentials
+- **Admin:** Username: \dmin\ | Password: \dmin123\
+- **Employee:** Username: \zoya\ | Password: \zoya123\
+

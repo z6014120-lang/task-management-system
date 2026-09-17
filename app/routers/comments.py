@@ -18,6 +18,20 @@ def create_comment(comment: schemas.CommentCreate, db: Session = Depends(databas
     db.add(db_comment)
     db.commit()
     db.refresh(db_comment)
+
+    from ..models.notification import Notification
+    message = f"New comment from {current_user.username} on task '{db_task.title}'"
+    if current_user.role == 'admin':
+        if db_task.assignee_id and db_task.assignee_id != current_user.id:
+            notif = Notification(user_id=db_task.assignee_id, message=message)
+            db.add(notif)
+    else:
+        admins = db.query(models.User).filter(models.User.role == 'admin').all()
+        for admin in admins:
+            notif = Notification(user_id=admin.id, message=message)
+            db.add(notif)
+    db.commit()
+
     return db_comment
 
 @router.get("/task/{task_id}", response_model=List[schemas.Comment])
